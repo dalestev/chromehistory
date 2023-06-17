@@ -58,6 +58,3 @@ foreach ($message in $messages) {
         break
     }
 }
-
-# Display success message
-Write-Host "URLs sent successfully to the Discord webhook."
