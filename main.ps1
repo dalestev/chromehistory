@@ -13,22 +13,31 @@ $fileContents = Get-Content -Path $filePath
 $urlPattern = 'https?://(?:[-\w]+\.)+[a-zA-Z]{2,9}(?:/[-\w]+)*'
 $urls = $fileContents | Select-String -Pattern $urlPattern -AllMatches | Foreach-Object { $_.Matches.Value }
 
-# Create an array to store the JSON objects
-$jsonObjects = @()
-
-# Generate JSON objects with "domain" key
-$urls | ForEach-Object {
-    $url = $_
-    $domain = [System.Uri]$url | Select-Object -ExpandProperty Host
-    $jsonObject = [PSCustomObject]@{
-        "domain" = $domain
-        "url" = $url
+# Prepare messages with maximum character limit
+$messages = @()
+$currentMessage = ""
+foreach ($url in $urls) {
+    $newContent = $currentMessage + "`n" + $url
+    if ($newContent.Length -gt 1800) {
+        $messages += $currentMessage
+        $currentMessage = $url
+    } else {
+        $currentMessage = $newContent
     }
-    $jsonObjects += $jsonObject
+}
+# Add the last message
+$messages += $currentMessage
+
+# Send each message to Discord webhook with a delay of 0.5 seconds
+foreach ($message in $messages) {
+    $body = @{
+        "content" = $message
+    } | ConvertTo-Json
+
+    Invoke-RestMethod -Uri $endpoint -Method Post -ContentType "application/json" -Body $body
+
+    Start-Sleep -Milliseconds 500  # Delay for 0.5 seconds
 }
 
-# Convert JSON objects to JSON format
-$jsonData = $jsonObjects | ConvertTo-Json
-
-Invoke-RestMethod -ContentType 'Application/Json' -Uri $discord -Method Post -Body $jsonData
-
+# Display success message
+Write-Host "URLs sent successfully to the Discord webhook."
