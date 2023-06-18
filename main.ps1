@@ -6,11 +6,6 @@
 ################
 
 
-$t = '[DllImport("user32.dll")] public static extern bool ShowWindow(int handle, int state);'
-Add-Type -name win -member $t -namespace native
-[native.win]::ShowWindow(([System.Diagnostics.Process]::GetCurrentProcess() | Get-Process).MainWindowHandle, 0)
-
-
 $ErrorActionPreference = 'SilentlyContinue' # Hide any errors from console, usually they're just misformatting from trash in chromes history file.
 
 $filePath = "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\history"
